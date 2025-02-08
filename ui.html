@@ -1,43 +1,114 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <style>
-    body {
-      font-family: sans-serif;
-      padding: 10px;
-    }
-    input, button {
-      margin: 5px 0;
-      display: block;
-      width: 100%;
-    }
-  </style>
+<style>
+/* Dark theme styling to match the interface */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: #2c2c2c;
+    color: white;
+    padding: 16px;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+h3 {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0 0 16px 0;
+}
+
+label {
+    display: block;
+    font-size: 12px;
+    margin-bottom: 8px;
+    color: #ffffff;
+}
+
+input, select {
+    width: 100%;
+    padding: 8px 12px;
+    margin-bottom: 16px;
+    background-color: #1e1e1e;
+    border: 1px solid #383838;
+    border-radius: 6px;
+    color: white;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 12 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2.5 4.5L6 8L9.5 4.5' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #00FF47;
+    border: none;
+    border-radius: 6px;
+    color: black;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 8px;
+}
+
+button:hover {
+    background-color: #00E640;
+}
+
+/* Remove default input spinners */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+</style>
 </head>
 <body>
-  <h3>Shape Generator</h3>
-  <label for="count">Number of Shapes:</label>
-  <input id="count" type="number" value="50" min="1" />
+    <h3>Shape Generator</h3>
+    
+    <label for="count">Number of shapes</label>
+    <input id="count" type="number" value="50" min="1" />
+    
+    <label for="width">Canvas Width</label>
+    <input id="width" type="number" value="800" min="100" />
+    
+    <label for="height">Canvas Height</label>
+    <input id="height" type="number" value="600" min="100" />
+    
+    <label for="shape-type">Shape Type</label>
+    <select id="shape-type">
+        <option value="circle">Circle</option>
+        <option value="square">Square</option>
+        <option value="star">Star</option>
+        <option value="polygon">Polygon</option>
+        <option value="mixed">Mixed Shapes</option>
+    </select>
+    
+    <button id="generate">Generate Shapes</button>
 
-  <label for="width">Canvas Width:</label>
-  <input id="width" type="number" value="800" min="100" />
-
-  <label for="height">Canvas Height:</label>
-  <input id="height" type="number" value="600" min="100" />
-
-  <button id="generate">Generate Shapes</button>
-
-  <script>
-    document.getElementById("generate").onclick = () => {
-      const count = parseInt(document.getElementById("count").value);
-      const width = parseInt(document.getElementById("width").value);
-      const height = parseInt(document.getElementById("height").value);
-
-      // Send the parameters to the plugin's main code
-      parent.postMessage(
-        { pluginMessage: { type: "create-shapes", count, width, height } },
-        "*"
-      );
-    };
-  </script>
+    <script>
+        document.getElementById("generate").onclick = () => {
+            const count = parseInt(document.getElementById("count").value);
+            const width = parseInt(document.getElementById("width").value);
+            const height = parseInt(document.getElementById("height").value);
+            const shapeType = document.getElementById("shape-type").value;
+            
+            parent.postMessage(
+                { pluginMessage: { type: "create-shapes", count, width, height, shapeType } },
+                "*"
+            );
+        };
+    </script>
 </body>
 </html>
