@@ -1,15 +1,19 @@
-figma.showUI(__html__);
+// Show UI with specific dimensions for better usability
+figma.showUI(__html__, {
+  width: 320,   // Width in pixels
+  height: 480,  // Height in pixels
+  themeColors: true  // Use Figma's theme colors
+});
 
 figma.ui.onmessage = (msg) => {
   if (msg.type === "create-shapes") {
     const { count, width, height, shapeType } = msg;
-
     // Array to hold all generated shapes
     const shapes: SceneNode[] = [];
 
     for (let i = 0; i < count; i++) {
       let shape;
-
+      
       if (shapeType === "mixed") {
         // Randomly choose a shape type
         shape = createRandomShape();
@@ -53,20 +57,18 @@ figma.ui.onmessage = (msg) => {
 
     // Only group if there are shapes to group
     if (shapes.length > 0) {
-      figma.group(shapes, figma.currentPage); // No need to assign to a variable
+      figma.group(shapes, figma.currentPage);
       figma.notify(`Generated ${count} shapes and grouped them!`);
     } else {
       figma.notify("No shapes were generated.");
     }
   }
-
   // Close the plugin after execution
   figma.closePlugin();
 };
 
 function createRandomShape(): SceneNode {
   const shapeType = Math.floor(Math.random() * 4); // Randomly choose a shape type
-
   switch (shapeType) {
     case 0:
       return figma.createEllipse(); // Circle
